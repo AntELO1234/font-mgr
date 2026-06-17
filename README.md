@@ -35,7 +35,7 @@ There I'll explain it!
 
 ## And how to download?
 
-Just download [font-mgr](font-mgr.tar) archive and run
+Just download [font-mgr](install/font-mgr-v1.0.0.tar) archive and run
 `sudo ./install.sh`
 
 ## Is it final product
@@ -43,3 +43,11 @@ Just download [font-mgr](font-mgr.tar) archive and run
 Unfortunately, no
 
 There is no normal repo, but if you want to help, I'll make a tutorial how to upload fonts here
+
+It will be, of course, but not right now
+
+Also this program can be buggy, so, if you found out them, please, write about it
+
+## License
+
+This program spreads under GNU GPL v3. [See more](LICENSE)
