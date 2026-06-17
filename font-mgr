@@ -1,0 +1,330 @@
+#!/bin/sh
+
+DESTINATION="/usr/local/share/fonts/"
+TYPE="truetype/"
+FILE=""
+
+if [ "$1" = "-u" ] || [ "$1" = "--user" ]; then
+  DESTINATION="$HOME/.local/share/fonts/"
+  
+  case "$2" in
+
+    "--ttf")
+      TYPE="truetype/"
+      FILE=$3
+      ;;
+
+    "--otf")
+      TYPE="opentype/"
+      FILE=$3
+      ;;
+
+    "--woff")
+      TYPE="woff/"
+      FILE=$3
+      ;;
+
+    "--type1")
+      TYPE="type1/"
+      FILE=$3
+      ;;
+
+    "--x11")
+      TYPE="bitmap/"
+      FILE=$3
+      ;;
+
+    "--bitmap")
+      TYPE="bitmap/"
+      FILE=$3
+      ;;
+
+    "-s")
+      echo "Local fonts: "
+      ls $DESTINATION
+      exit 0
+      ;;
+
+    "--search")
+      echo "Local fonts: "
+      ls $DESTINATION
+      exit 0
+      ;;
+
+    "-r")
+      case "$3" in
+
+      "-ttf")
+        TYPE="truetype/"
+        FILE=$4
+        ;;
+
+     "-otf")
+        TYPE="opentype/"
+        FILE=$4
+        ;;
+
+      "-woff")
+        TYPE="woff/"
+        FILE=$4
+        ;;
+
+      "-type1")
+        TYPE="type1/"
+        FILE=$4
+        ;;
+
+      "-x11")
+        TYPE="bitmap/"
+        FILE=$4
+        ;;
+
+      "-bitmap")
+        TYPE="bitmap/"
+        FILE=$4
+        ;;
+
+      *)
+        TYPE="truetype/"
+        FILE=$3
+        ;;
+      esac
+
+      FINAL="$DESTINATION$TYPE$FILE"
+
+      if [ ! -f "$FINAL" ]; then
+        echo "Font isn't installed"
+        exit 1
+      else
+        echo "Deleting font..."
+        rm -f "$FINAL" 2>/dev/null
+        echo "Updating fonts..."
+        fc-cache -f
+        echo "Font deleted"
+        exit 0
+      fi
+      ;;
+
+    "--remove")
+      case "$3" in
+
+      "-ttf")
+        TYPE="truetype/"
+        FILE=$4
+        ;;
+
+     "-otf")
+        TYPE="opentype/"
+        FILE=$4
+        ;;
+
+      "-woff")
+        TYPE="woff/"
+        FILE=$4
+        ;;
+
+      "-type1")
+        TYPE="type1/"
+        FILE=$4
+        ;;
+
+      "-x11")
+        TYPE="bitmap/"
+        FILE=$4
+        ;;
+
+      "-bitmap")
+        TYPE="bitmap/"
+        FILE=$4
+        ;;
+
+      *)
+        TYPE="truetype/"
+        FILE=$3
+        ;;
+      esac
+
+      FINAL="$DESTINATION$TYPE$FILE"
+
+      if [ ! -f "$FINAL" ]; then
+        echo "Font isn't installed"
+        exit 1
+      else
+        echo "Deleting font..."
+        rm -f "$FINAL" 2>/dev/null
+        echo "Updating fonts..."
+        fc-cache -f
+        echo "Font deleted"
+        exit 0
+      fi
+      ;;
+
+    *)
+      TYPE="truetype/"
+      FILE=$2
+      ;;
+  esac
+
+elif [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ "$1" = "" ]; then
+  echo "Font-Manager v. 1.0.0"
+  echo "Program for installing, removing and downloading the fonts"
+  echo "==========================================================================="
+  echo "Arguments:"
+  echo " -u | --user     | Installs font into user's folder"
+  echo " -h | --help     | Shows this message"
+  echo " -r | --remove   | Removes font from system/user(IN FUTURE)"
+  echo " -s | --search   | Shows what fonts are installed"
+  echo " -d | --download | Downloads and installs the font from repos(IN FUTURE)"
+  echo "Arguments for font types:"
+  echo " --ttf    | for TrueType format"
+  echo " --otf    | for OpenType format"
+  echo " --woff   | for WOFF format"
+  echo " --type1  | for Type1 format"
+  echo " --x11    | for old bitmap formats"
+  echo " --bitmap | for old Bitmap formats"
+  echo " *        | font will be installed as TrueType by default(without arg.)"
+  echo "==========================================================================="
+  echo "Examples:"
+  echo "font-mgr -u --otf myfont.otf - installs OpenType font into ~/.local/ folder"
+  echo "font-mgr -r notmyfont.ttf - removes TrueType font from /usr/local folder"
+  echo "==========================================================================="
+  exit 0
+elif [ "$1" = "-s" ] || [ "$1" = "--search" ]; then
+  echo "System fonts: "
+  ls $DESTINATION
+  exit 0
+
+elif [ "$1" = "-r" ] || [ "$1" = "--remove" ]; then
+  case "$2" in
+
+  "-ttf")
+    TYPE="truetype/"
+    FILE=$3
+    ;;
+
+  "-otf")
+    TYPE="opentype/"
+    FILE=$3
+    ;;
+
+  "-woff")
+    TYPE="woff/"
+    FILE=$3
+    ;;
+
+  "-type1")
+    TYPE="type1/"
+    FILE=$3
+    ;;
+
+  "-x11")
+    TYPE="bitmap/"
+    FILE=$3
+    ;;
+
+  "-bitmap")
+    TYPE="bitmap/"
+    FILE=$3
+    ;;
+
+  *)
+    TYPE="truetype/"
+    FILE=$2
+    ;;
+  esac
+
+  FINAL="$DESTINATION$TYPE$FILE"
+  
+  echo "Deleting font..."
+  
+  if [ ! -w "$FINAL" ]; then
+    sudo rm -f "$FINAL"
+    SUCCESSFUL=$?
+
+    if [ $SUCCESSFUL != 0 ]; then
+      echo "Font isn't installed or deletion error happened"
+      exit 1
+    else
+      echo "Updating fonts..."
+      sudo fc-cache -f
+      echo "Font deleted"
+      exit 0
+    fi
+  else
+    rm -f "$FINAL" 2>/dev/null
+    echo "Updating fonts..."
+    fc-cache -f
+    echo "Font deleted"
+    exit 0
+  fi      
+
+elif [ "$1" != "-u" ] && [ "$1" != "--user" ]; then
+  case "$1" in
+
+  "-ttf")
+    TYPE="truetype/"
+    FILE=$2
+    ;;
+
+  "-otf")
+    TYPE="opentype/"
+    FILE=$2
+    ;;
+
+  "-woff")
+    TYPE="woff/"
+    FILE=$2
+    ;;
+
+  "-type1")
+    TYPE="type1/"
+    FILE=$2
+    ;;
+
+  "-x11")
+    TYPE="bitmap/"
+    FILE=$2
+    ;;
+
+  "-bitmap")
+    TYPE="bitmap/"
+    FILE=$2
+    ;;
+
+  *)
+    TYPE="truetype/"
+    FILE=$1
+    ;;
+  esac
+fi
+
+if [ -z "$FILE" ] || [ ! -f "$FILE" ]; then
+  echo "Copying file does not exist"
+  exit 1
+fi
+
+FINAL="$DESTINATION$TYPE"
+
+echo "Copying files..."
+{ mkdir -p "$FINAL" && cp "$FILE" "$FINAL"; } 2>/dev/null
+
+SUCCESSFUL=$?
+  
+if [ $SUCCESSFUL != 0 ]; then
+  sudo mkdir -p "$FINAL" && sudo cp "$FILE" "$FINAL"
+  SUCCESSFUL=$?
+  if [ $SUCCESSFUL != 0 ]; then
+    echo "Font isn't installed"
+    exit 1
+  else
+    echo "Updating fonts..."
+    sudo fc-cache -f
+    echo "Font installed"
+    exit 0
+  fi
+else
+  echo "Updating fonts..."
+  fc-cache -f
+  echo "Font installed"
+  exit 0
+fi
