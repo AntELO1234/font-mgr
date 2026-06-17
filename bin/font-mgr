@@ -63,7 +63,7 @@ download(){
     fi
   else
     mkdir "/etc/font-mgr"
-    echo "https://githubusercontent.com/AntELO1234/font-mgr/main/fonts/%TYPE%/%LANG%/%NAME%.tar" >> $CFG
+    echo "https://raw.githubusercontent.com/AntELO1234/font-mgr/main/fonts/%TYPE%/%LANG%/%NAME%.tar" >> $CFG
     download "$1" "$2" "$3"
   fi
 }
