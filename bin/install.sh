@@ -7,6 +7,6 @@ fi
 
 install -m 755 font-mgr /usr/local/bin/font-mgr
 mkdir -p /etc/font-mgr
-echo "https://githubusercontent.com/AntELO1234/font-mgr/main/fonts/%TYPE%/%LANG%/%NAME%.tar" > /etc/font-mgr/repos.cfg
+echo "https://raw.githubusercontent.com/AntELO1234/font-mgr/main/fonts/%TYPE%/%LANG%/%NAME%.tar" > /etc/font-mgr/repos.cfg
 mkdir -p /tmp/font-mgr
 echo "Program installed"
